@@ -1,0 +1,2 @@
+# sanitizr
+Entity sanitation framework
