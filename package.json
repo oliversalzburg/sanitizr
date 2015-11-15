@@ -18,5 +18,9 @@
   "homepage": "https://github.com/oliversalzburg/sanitizr#readme",
   "devDependencies": {
     "jscs": "^2.5.1"
+  },
+  "dependencies": {
+    "lodash": "latest",
+    "fm-log": "latest"
   }
 }
