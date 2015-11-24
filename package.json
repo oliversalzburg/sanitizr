@@ -31,7 +31,6 @@
     "sql": "0.63.1"
   },
   "dependencies": {
-    "lodash": "latest",
-    "fm-log": "latest"
+    "lodash": "latest"
   }
 }
