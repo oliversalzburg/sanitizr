@@ -14,7 +14,7 @@ var TypeInfo      = require( "../../lib/type/info" );
 // Fixtures
 var PersonType = require( "../fixtures/mongoose" );
 
-describe( "Decoration: Plain Object", function() {
+describe( "Decoration: Mongoose", function() {
 	it( "should decorate a type field", function() {
 		var personType = PersonType.get();
 

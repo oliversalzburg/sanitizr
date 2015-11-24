@@ -14,7 +14,7 @@ var TypeInfo      = require( "../../lib/type/info" );
 // Fixtures
 var PersonType = require( "../fixtures/sql" );
 
-describe( "Decoration: SQL", function() {
+describe( "Decoration: Plain Object", function() {
 	it( "should decorate a type field", function() {
 		var personType = PersonType.get();
 

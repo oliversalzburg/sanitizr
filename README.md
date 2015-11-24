@@ -12,6 +12,7 @@ Sanitizr is an entity sanitation framework.
 It allows to decorate a type description with annotations that can later be used to apply transformations on instances of the described type.
 
 The decorations are applied on the plain object level. However, the library is primarily designed to interoperate with:
+
 	- [Mongoose ODM](http://mongoosejs.com/)
 	- [node-sql](https://github.com/brianc/node-sql)
 
