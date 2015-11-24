@@ -215,4 +215,22 @@ describe( "Processing: Plain Object (with complex)", function() {
 		personInstance.should.have.property( "apiKey" ).that.equals( "foo" );
 		personInstance.parent.should.have.property( "apiKey" ).that.equals( "foo" );
 	} );
+
+	it( "should reduce complex properties", function() {
+		var personType = PersonType.get();
+
+		new TypeDecorator( personType )
+			.decorate( "apiKey", TypeInfo.USERCLASS_USER, TypeInfo.CONCEALED );
+
+		var personInstance    = PersonType.construct( "id", "name", "apiKey", "special" );
+		personInstance.parent = PersonType.construct( "parent-id", "name", "apiKey", "special" );
+
+		var typeInfo = new TypeInfo( "person", personType );
+		typeInfo.markComplex( "parent", "person" );
+
+		var helper = new TypeHelper( typeInfo );
+		helper.reduceComplex( personInstance );
+
+		personInstance.should.have.property( "parent" ).that.is.a( "string" ).and.equals( "parent-id" );
+	} );
 } );
