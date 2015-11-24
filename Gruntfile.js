@@ -28,7 +28,7 @@ module.exports = function( grunt ) {
 
 			mocha_istanbul : {// jscs:ignore requireCamelCaseOrUpperCaseIdentifiers
 				coverage : {
-					src     : "test",
+					src     : "test/*",
 					options : {
 						coverage      : true,
 						root          : "./lib",
