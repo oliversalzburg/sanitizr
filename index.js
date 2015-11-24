@@ -35,3 +35,10 @@ function info( typeName, type ) {
 function helper( typeInfo ) {
 	return new TypeHelper( typeInfo );
 }
+
+module.exports.USERCLASS_ADMIN = TypeInfo.USERCLASS_ADMIN;
+module.exports.USERCLASS_USER  = TypeInfo.USERCLASS_USER;
+
+module.exports.CONCEALED = TypeInfo.CONCEALED;
+module.exports.HIDDEN    = TypeInfo.HIDDEN;
+module.exports.READ_ONLY = TypeInfo.READ_ONLY;
