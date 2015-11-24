@@ -38,10 +38,74 @@ How?
 
 ### Usage
 
+#### node-sql
+
+In node-sql, a complete type setup would look like this:
+
+```js
+var sanitizr = require( "sanitizr" );
+var sql      = require( "sql" ).setDialect( "postgres" );
+
+var schema = {
+	name    : "person",
+	columns : [
+		"id",
+		"name",
+		"apiKey"
+	]
+};
+var type = sql.define( schema );
+
+sanitizr
+	.decorate( type )
+	.decorate( "name", sanitizr.USERCLASS_USER, sanitizr.READ_ONLY )
+	.decorate( "apiKey", sanitizr.USERCLASS_USER, sanitizr.HIDDEN );
+	
+var info   = sanitizr.info( schema.name, type );
+var helper = sanitizr.helper( info );
+```
+
+When you *receive* an entity from a user, you can remove the read-only properties with:
+
+```js
+var cleanPerson = helper.omitReadOnly( personFromUser );
+```
+
+When you want to *send* an entity to a user, you can remove hidden properties with:
+ 
+ ```js
+ var cleanPerson = helper.omitHidden( personForUser );
+ ```
+
+
+#### mongoose
+
 ```js
 // Example pending
-
 ```
+
+### Concepts
+
+1. sanitizr has 2 user classes pre-defined:
+	- *admin* as `USERCLASS_ADMIN` 
+	- *user* as `USERCLASS_USER` 
+
+	The classes are just strings, feel free to use anything else.
+
+2. The *helper* has the following core methods:
+	- `omitNull` - removes all properties that are `null`.
+	- `omitHidden` - removes all properties that are marked `HIDDEN`.
+	- `omitReadOnly` - removes all properties that are marked `READ_ONLY`.
+	- `conceal` - replaces the values of all properties that are marked `CONCEALED` with `true`.
+
+3. In sanitizr, a type may be referred to as *complex*. This simply means that it is not a primitive, like a `String`,
+	but another type, which is composed of primitives or other complex objects.
+
+	If a property is *complex*, omissions and concealment will be applied by the rules of the referenced, complex type.
+
+	Additionally, the *helper* provides the following utility method to handle complex properties:
+	- `reduceComplex` - replaces the values of all properties that are *complex*, with the `id` property of the 
+		referenced object.
 
 Errors
 ------
