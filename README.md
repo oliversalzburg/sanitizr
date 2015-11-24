@@ -12,10 +12,22 @@ Sanitizr is an entity sanitation framework.
 It allows to decorate a type description with annotations that can later be used to apply transformations on instances
 of the described type.
 
-The decorations are applied on the plain object level. However, the library is primarily designed to interoperate with:
+The annotations are applied on the plain object level. However, the library is primarily designed to interoperate with:
 
 - [Mongoose ODM](http://mongoosejs.com/)
 - [node-sql](https://github.com/brianc/node-sql)
+
+To put it simply, in your application, you will have a description of a type. In mongoose, this type comes from a *schema*.
+If you're using node-sql, you're going to have a table definition that you pass to `sql.define`.
+
+sanitizr attempts to re-use that data structure and put additional, hidden information into it. That information can later
+be used to remove or replace certain properties from an instance of that type.
+
+This allows you to pull an instance of that type from your database and then process it depending on the user class that
+requested the entity.
+
+For example, you might annotate a single property to be hidden for the "user" user class. If the user has the "admin"
+user class, he would see the property. If the user has the "user" user class, he won't.
 
 How?
 ----
@@ -31,8 +43,9 @@ How?
 
 ```
 
-### Errors
-`DecoratorError: Attempting to decorate function type property 'property' is probably unintended!`
+Errors
+------
+### `DecoratorError: Attempting to decorate function type property 'property' is probably unintended!`
 
 The error is thrown for mongoose schemas that use the built-in constructors as type identifiers. For example:  
 
@@ -54,7 +67,7 @@ var schema = {
 }
 ```
 
-`HelperError: The property can't be reduced as it has no 'id' property itself.`
+### `HelperError: The property can't be reduced as it has no 'id' property itself.`
 
 The error is thrown when an attempt is made to invoke `reduceComplex` on a property that does not have an `id` member.
 

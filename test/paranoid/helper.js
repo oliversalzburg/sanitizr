@@ -22,11 +22,11 @@ describe( "Paranoid: TypeHelper", function() {
 		var typeInfo   = new TypeInfo( "person", personType );
 		var helper     = new TypeHelper( typeInfo );
 
-		function reduce() {
+		function omitNull() {
 			helper.omitNull( null );
 		}
 
-		expect( reduce ).to.throw( HelperError );
+		expect( omitNull ).to.throw( HelperError );
 	} );
 
 	it( "should throw on attempts to omit hidden on null", function() {
@@ -34,11 +34,11 @@ describe( "Paranoid: TypeHelper", function() {
 		var typeInfo   = new TypeInfo( "person", personType );
 		var helper     = new TypeHelper( typeInfo );
 
-		function reduce() {
+		function omitHidden() {
 			helper.omitHidden( null );
 		}
 
-		expect( reduce ).to.throw( HelperError );
+		expect( omitHidden ).to.throw( HelperError );
 	} );
 
 	it( "should throw on attempts to omit read-only on null", function() {
@@ -46,11 +46,11 @@ describe( "Paranoid: TypeHelper", function() {
 		var typeInfo   = new TypeInfo( "person", personType );
 		var helper     = new TypeHelper( typeInfo );
 
-		function reduce() {
+		function omitReadOnly() {
 			helper.omitReadOnly( null );
 		}
 
-		expect( reduce ).to.throw( HelperError );
+		expect( omitReadOnly ).to.throw( HelperError );
 	} );
 
 	it( "should throw on attempts to conceal on null", function() {
@@ -58,11 +58,11 @@ describe( "Paranoid: TypeHelper", function() {
 		var typeInfo   = new TypeInfo( "person", personType );
 		var helper     = new TypeHelper( typeInfo );
 
-		function reduce() {
+		function conceal() {
 			helper.conceal( null );
 		}
 
-		expect( reduce ).to.throw( HelperError );
+		expect( conceal ).to.throw( HelperError );
 	} );
 
 	it( "should throw on attempts to reduce null", function() {
