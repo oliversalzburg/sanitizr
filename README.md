@@ -31,8 +31,9 @@ How?
 
 ```
 
-### Errors
-`DecoratorError: Attempting to decorate function type property 'property' is probably unintended!`
+Errors
+------
+### `DecoratorError: Attempting to decorate function type property 'property' is probably unintended!`
 
 The error is thrown for mongoose schemas that use the built-in constructors as type identifiers. For example:  
 
@@ -54,7 +55,7 @@ var schema = {
 }
 ```
 
-`HelperError: The property can't be reduced as it has no 'id' property itself.`
+### `HelperError: The property can't be reduced as it has no 'id' property itself.`
 
 The error is thrown when an attempt is made to invoke `reduceComplex` on a property that does not have an `id` member.
 
