@@ -2,6 +2,7 @@
 
 module.exports.get = function get() {
 	return {
+		id         : {},
 		name       : {},
 		apiKey     : {},
 		properties : {
