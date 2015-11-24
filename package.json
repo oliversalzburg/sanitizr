@@ -1,6 +1,6 @@
 {
   "name": "sanitizr",
-  "version": "1.0.0-pre0",
+  "version": "1.0.0-pre1",
   "description": "Entity sanitation framework",
   "main": "index.js",
   "scripts": {
