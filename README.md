@@ -27,11 +27,12 @@ How?
 ### Usage
 
 ```js
+// Example pending
 
 ```
 
 ### Errors
-`DecoratorError: Attempting to decorate function type property 'name' is probably unintended!`
+`DecoratorError: Attempting to decorate function type property 'property' is probably unintended!`
 
 The error is thrown for mongoose schemas that use the built-in constructors as type identifiers. For example:  
 

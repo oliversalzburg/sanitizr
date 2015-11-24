@@ -73,4 +73,23 @@ describe( "Info: Plain Object", function() {
 		typeInfo.isConcealed( "apiKey", TypeInfo.USERCLASS_USER ).should.equal( true );
 		typeInfo.isConcealed( "name", TypeInfo.USERCLASS_USER ).should.equal( false );
 	} );
+
+	it( "should identify properties which are marked complex", function() {
+		var personType = PersonType.get();
+
+		var typeInfo = new TypeInfo( "person", personType );
+		typeInfo.markComplex( "parent", "person" );
+
+		typeInfo.isComplex( "parent" ).should.equal( true );
+		typeInfo.isComplex( "name" ).should.equal( false );
+	} );
+
+	it( "should give us the complex type", function() {
+		var personType = PersonType.get();
+
+		var typeInfo = new TypeInfo( "person", personType );
+		typeInfo.markComplex( "parent", "person" );
+
+		typeInfo.complex( "parent" ).should.equal( "person" );
+	} );
 } );

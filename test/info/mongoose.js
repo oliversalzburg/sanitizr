@@ -83,4 +83,11 @@ describe( "Info: Mongoose", function() {
 		typeInfo.isComplex( "parent" ).should.equal( true );
 		typeInfo.isComplex( "name" ).should.equal( false );
 	} );
+
+	it( "should give us the complex type", function() {
+		var personType = PersonType.get();
+
+		var typeInfo = new TypeInfo( "person", personType );
+		typeInfo.complex( "parent" ).should.equal( "person" );
+	} );
 } );
