@@ -53,3 +53,24 @@ var schema = {
 	property : { type : String }
 }
 ```
+
+`HelperError: The property can't be reduced as it has no 'id' property itself.`
+
+The error is thrown when an attempt is made to invoke `reduceComplex` on a property that does not have an `id` member.
+
+```js
+// We define a new type and mark the "parent" property as complex.
+var personType = { parent : {} };
+var typeInfo   = new TypeInfo( "person", personType );
+typeInfo.markComplex( "parent", "person" );
+
+// Construct the helper for the type.
+var helper = new TypeHelper( typeInfo );
+
+// This "instance" of the type described above has a "parent" property, but that property itself has no "id" property.
+// This means we can't reduce the object to an id and reduceComplex will throw.
+var personInstance = { parent : {} };
+
+helper.reduceComplex( personInstance );
+
+```
