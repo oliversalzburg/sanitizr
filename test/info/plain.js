@@ -103,3 +103,48 @@ describe( "Info: Plain Object", function() {
 		typeInfo.complex( "parent" ).should.equal( "person" );
 	} );
 } );
+
+describe( "Info: Plain Object with default User Class checks", function() {
+	it( "should identify hidden properties", function() {
+		var personType = PersonType.get();
+
+		new TypeDecorator( personType )
+			.decorate( "apiKey", TypeInfo.USERCLASS_USER, TypeInfo.HIDDEN );
+
+		var typeInfo = new TypeInfo( "person", personType );
+		typeInfo.isHidden( "apiKey" ).should.equal( true );
+		typeInfo.isHidden( "name" ).should.equal( false );
+	} );
+
+	it( "should identify read-only properties", function() {
+		var personType = PersonType.get();
+
+		new TypeDecorator( personType )
+			.decorate( "apiKey", TypeInfo.USERCLASS_USER, TypeInfo.READ_ONLY );
+
+		var typeInfo = new TypeInfo( "person", personType );
+		typeInfo.isReadOnly( "apiKey" ).should.equal( true );
+		typeInfo.isReadOnly( "name" ).should.equal( false );
+	} );
+
+	it( "should identify concealed properties", function() {
+		var personType = PersonType.get();
+
+		new TypeDecorator( personType )
+			.decorate( "apiKey", TypeInfo.USERCLASS_USER, TypeInfo.CONCEALED );
+
+		var typeInfo = new TypeInfo( "person", personType );
+		typeInfo.isConcealed( "apiKey" ).should.equal( true );
+		typeInfo.isConcealed( "name" ).should.equal( false );
+	} );
+
+	it( "should identify concealed properties as read-only", function() {
+		var personType = PersonType.get();
+
+		new TypeDecorator( personType )
+			.decorate( "apiKey", TypeInfo.USERCLASS_USER, TypeInfo.CONCEALED );
+
+		var typeInfo = new TypeInfo( "person", personType );
+		typeInfo.isReadOnly( "apiKey" ).should.equal( true );
+	} );
+} );
