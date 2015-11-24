@@ -9,7 +9,6 @@ var should   = require( "chai" ).should();
 
 // Library modules
 var TypeDecorator = require( "../../lib/type/decorator" );
-var TypeHelper    = require( "../../lib/type/helper" );
 var TypeInfo      = require( "../../lib/type/info" );
 
 // Fixtures
