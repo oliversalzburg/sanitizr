@@ -76,4 +76,81 @@ describe( "Paranoid: TypeHelper", function() {
 
 		expect( reduce ).to.throw( HelperError );
 	} );
+
+	it( "should throw on attempts to omit null on non-complex types that are marked complex", function() {
+		var personType = PersonType.get();
+		var typeInfo   = new TypeInfo( "person", personType );
+		typeInfo.markComplex( "parent", "invalid" );
+
+		var helper         = new TypeHelper( typeInfo );
+		var personInstance = PersonType.construct( "id", "name", "apiKey", "special" );
+
+		function omitNull() {
+			helper.omitNull( personInstance );
+		}
+
+		expect( omitNull ).to.throw( HelperError );
+	} );
+
+	it( "should throw on attempts to omit hidden on non-complex types that are marked complex", function() {
+		var personType = PersonType.get();
+		var typeInfo   = new TypeInfo( "person", personType );
+		typeInfo.markComplex( "parent", "invalid" );
+
+		var helper         = new TypeHelper( typeInfo );
+		var personInstance = PersonType.construct( "id", "name", "apiKey", "special" );
+
+		function omitHidden() {
+			helper.omitHidden( personInstance );
+		}
+
+		expect( omitHidden ).to.throw( HelperError );
+	} );
+
+	it( "should throw on attempts to omit read-only on non-complex types that are marked complex", function() {
+		var personType = PersonType.get();
+		var typeInfo   = new TypeInfo( "person", personType );
+		typeInfo.markComplex( "parent", "invalid" );
+
+		var helper         = new TypeHelper( typeInfo );
+		var personInstance = PersonType.construct( "id", "name", "apiKey", "special" );
+
+		function omitReadOnly() {
+			helper.omitReadOnly( personInstance );
+		}
+
+		expect( omitReadOnly ).to.throw( HelperError );
+	} );
+
+	it( "should throw on attempts to conceal on non-complex types that are marked complex", function() {
+		var personType = PersonType.get();
+		var typeInfo   = new TypeInfo( "person", personType );
+		typeInfo.markComplex( "parent", "invalid" );
+
+		var helper         = new TypeHelper( typeInfo );
+		var personInstance = PersonType.construct( "id", "name", "apiKey", "special" );
+
+		function conceal() {
+			helper.conceal( personInstance );
+		}
+
+		expect( conceal ).to.throw( HelperError );
+	} );
+
+	it( "should throw on attempts to reduce objects without 'id' property", function() {
+		var personType = PersonType.get();
+		var typeInfo   = new TypeInfo( "person", personType );
+		typeInfo.markComplex( "parent", "person" );
+
+		var helper = new TypeHelper( typeInfo );
+
+		var personInstance    = PersonType.construct( "id", "name", "apiKey", "special" );
+		personInstance.parent = {};
+
+		function reduce() {
+			helper.reduceComplex( personInstance );
+		}
+
+		expect( reduce ).to.throw( HelperError );
+	} );
 } );

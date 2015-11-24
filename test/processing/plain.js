@@ -233,6 +233,26 @@ describe( "Processing: Plain Object (with complex)", function() {
 
 		personInstance.should.have.property( "parent" ).that.is.a( "string" ).and.equals( "parent-id" );
 	} );
+
+	it( "should reduce arrays of complex properties", function() {
+		var personType     = PersonType.get();
+		personType.parents = [ {} ];
+
+		new TypeDecorator( personType );
+
+		var personInstance     = PersonType.construct( "id", "name", "apiKey", "special" );
+		personInstance.parents = [];
+		personInstance.parents.push( PersonType.construct( "parent-id", "name", "apiKey", "special" ) );
+
+		var typeInfo = new TypeInfo( "person", personType );
+		typeInfo.markComplex( "parents", "person" );
+
+		var helper = new TypeHelper( typeInfo );
+		helper.reduceComplex( personInstance );
+
+		personInstance.should.have.property( "parents" ).that.is.an( "array" ).and.has.length( 1 );
+		personInstance.parents[ 0 ].should.equal( "parent-id" );
+	} );
 } );
 
 // ---------------------------------------------------------------------------------------------------------------------
@@ -441,8 +461,7 @@ describe( "Processing: Array of Plain Object (with complex)", function() {
 	it( "should reduce complex properties", function() {
 		var personType = PersonType.get();
 
-		new TypeDecorator( personType )
-			.decorate( "apiKey", TypeInfo.USERCLASS_USER, TypeInfo.CONCEALED );
+		new TypeDecorator( personType );
 
 		var personInstance    = PersonType.construct( "id", "name", "apiKey", "special" );
 		personInstance.parent = PersonType.construct( "parent-id", "name", "apiKey", "special" );
@@ -451,8 +470,28 @@ describe( "Processing: Array of Plain Object (with complex)", function() {
 		typeInfo.markComplex( "parent", "person" );
 
 		var helper = new TypeHelper( typeInfo );
-		helper.reduceComplex( [ personInstance  ]);
+		helper.reduceComplex( [ personInstance ] );
 
 		personInstance.should.have.property( "parent" ).that.is.a( "string" ).and.equals( "parent-id" );
+	} );
+
+	it( "should reduce arrays of complex properties", function() {
+		var personType     = PersonType.get();
+		personType.parents = [ {} ];
+
+		new TypeDecorator( personType );
+
+		var personInstance     = PersonType.construct( "id", "name", "apiKey", "special" );
+		personInstance.parents = [];
+		personInstance.parents.push( PersonType.construct( "parent-id", "name", "apiKey", "special" ) );
+
+		var typeInfo = new TypeInfo( "person", personType );
+		typeInfo.markComplex( "parents", "person" );
+
+		var helper = new TypeHelper( typeInfo );
+		helper.reduceComplex( [ personInstance ] );
+
+		personInstance.should.have.property( "parents" ).that.is.an( "array" ).and.has.length( 1 );
+		personInstance.parents[ 0 ].should.equal( "parent-id" );
 	} );
 } );
