@@ -1,6 +1,6 @@
 {
   "name": "sanitizr",
-  "version": "1.0.0-rc0",
+  "version": "1.0.0",
   "description": "Entity sanitation framework",
   "main": "index.js",
   "scripts": {
@@ -31,6 +31,6 @@
     "sql": "0.63.1"
   },
   "dependencies": {
-    "lodash": "latest"
+    "lodash": ">=2.4.1"
   }
 }
