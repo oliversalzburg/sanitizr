@@ -74,6 +74,16 @@ describe( "Info: Plain Object", function() {
 		typeInfo.isConcealed( "name", TypeInfo.USERCLASS_USER ).should.equal( false );
 	} );
 
+	it( "should identify concealed properties as read-only", function() {
+		var personType = PersonType.get();
+
+		new TypeDecorator( personType )
+			.decorate( "apiKey", TypeInfo.USERCLASS_USER, TypeInfo.CONCEALED );
+
+		var typeInfo = new TypeInfo( "person", personType );
+		typeInfo.isReadOnly( "apiKey", TypeInfo.USERCLASS_USER ).should.equal( true );
+	} );
+
 	it( "should identify properties which are marked complex", function() {
 		var personType = PersonType.get();
 
