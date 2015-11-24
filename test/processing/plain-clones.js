@@ -15,7 +15,7 @@ var TypeInfo      = require( "../../lib/type/info" );
 // Fixtures
 var PersonType = require( "../fixtures/plain" );
 
-describe( "Processing: Plain Object", function() {
+describe( "Processing: Clones of Plain Object", function() {
 	it( "should omit null values", function() {
 		var personType = PersonType.get();
 
@@ -27,9 +27,10 @@ describe( "Processing: Plain Object", function() {
 
 		personInstance.should.have.property( "name" );
 
-		helper.omitNull( personInstance );
+		var clone = helper.omitNull( personInstance, true );
 
-		personInstance.should.not.have.property( "name" );
+		personInstance.should.have.property( "name" );
+		clone.should.not.have.property( "name" );
 	} );
 
 	it( "should omit hidden values", function() {
@@ -44,9 +45,10 @@ describe( "Processing: Plain Object", function() {
 
 		personInstance.should.have.property( "apiKey" );
 
-		helper.omitHidden( personInstance, TypeInfo.USERCLASS_USER );
+		var clone = helper.omitHidden( personInstance, TypeInfo.USERCLASS_USER, true );
 
-		personInstance.should.not.have.property( "apiKey" );
+		personInstance.should.have.property( "apiKey" );
+		clone.should.not.have.property( "apiKey" );
 	} );
 
 	it( "should omit read-only values", function() {
@@ -61,9 +63,10 @@ describe( "Processing: Plain Object", function() {
 
 		personInstance.should.have.property( "apiKey" );
 
-		helper.omitReadOnly( personInstance, TypeInfo.USERCLASS_USER );
+		var clone = helper.omitReadOnly( personInstance, TypeInfo.USERCLASS_USER, true );
 
-		personInstance.should.not.have.property( "apiKey" );
+		personInstance.should.have.property( "apiKey" );
+		clone.should.not.have.property( "apiKey" );
 	} );
 
 	it( "should conceal concealed values", function() {
@@ -78,9 +81,10 @@ describe( "Processing: Plain Object", function() {
 
 		personInstance.should.have.property( "apiKey" ).that.equals( "apiKey" );
 
-		helper.conceal( personInstance, TypeInfo.USERCLASS_USER );
+		var clone = helper.conceal( personInstance, TypeInfo.USERCLASS_USER, true );
 
-		personInstance.should.have.property( "apiKey" ).that.equals( true );
+		personInstance.should.have.property( "apiKey" ).that.equals( "apiKey" );
+		clone.should.have.property( "apiKey" ).that.equals( true );
 	} );
 
 	it( "should conceal concealed values with given replacement", function() {
@@ -95,13 +99,14 @@ describe( "Processing: Plain Object", function() {
 
 		personInstance.should.have.property( "apiKey" ).that.equals( "apiKey" );
 
-		helper.conceal( personInstance, TypeInfo.USERCLASS_USER, false, "foo" );
+		var clone = helper.conceal( personInstance, TypeInfo.USERCLASS_USER, true, "foo" );
 
-		personInstance.should.have.property( "apiKey" ).that.equals( "foo" );
+		personInstance.should.have.property( "apiKey" ).that.equals( "apiKey" );
+		clone.should.have.property( "apiKey" ).that.equals( "foo" );
 	} );
 } );
 
-describe( "Processing: Plain Object (with complex)", function() {
+describe( "Processing: Clones of Plain Object (with complex)", function() {
 	it( "should omit null values", function() {
 		var personType = PersonType.get();
 
@@ -118,10 +123,11 @@ describe( "Processing: Plain Object (with complex)", function() {
 		personInstance.should.have.property( "name" );
 		personInstance.parent.should.have.property( "name" );
 
-		helper.omitNull( personInstance );
+		var clone = helper.omitNull( personInstance, true );
 
-		personInstance.should.not.have.property( "name" );
-		personInstance.parent.should.not.have.property( "name" );
+		personInstance.should.have.property( "name" );
+		clone.should.not.have.property( "name" );
+		clone.parent.should.not.have.property( "name" );
 	} );
 
 	it( "should omit hidden values", function() {
@@ -141,10 +147,11 @@ describe( "Processing: Plain Object (with complex)", function() {
 		personInstance.should.have.property( "apiKey" );
 		personInstance.parent.should.have.property( "apiKey" );
 
-		helper.omitHidden( personInstance, TypeInfo.USERCLASS_USER );
+		var clone = helper.omitHidden( personInstance, TypeInfo.USERCLASS_USER, true );
 
-		personInstance.should.not.have.property( "apiKey" );
-		personInstance.parent.should.not.have.property( "apiKey" );
+		personInstance.should.have.property( "apiKey" );
+		clone.should.not.have.property( "apiKey" );
+		clone.parent.should.not.have.property( "apiKey" );
 	} );
 
 	it( "should omit read-only values", function() {
@@ -164,10 +171,11 @@ describe( "Processing: Plain Object (with complex)", function() {
 		personInstance.should.have.property( "apiKey" );
 		personInstance.parent.should.have.property( "apiKey" );
 
-		helper.omitReadOnly( personInstance, TypeInfo.USERCLASS_USER );
+		var clone = helper.omitReadOnly( personInstance, TypeInfo.USERCLASS_USER, true );
 
-		personInstance.should.not.have.property( "apiKey" );
-		personInstance.parent.should.not.have.property( "apiKey" );
+		personInstance.should.have.property( "apiKey" );
+		clone.should.not.have.property( "apiKey" );
+		clone.parent.should.not.have.property( "apiKey" );
 	} );
 
 	it( "should conceal concealed values", function() {
@@ -187,10 +195,11 @@ describe( "Processing: Plain Object (with complex)", function() {
 		personInstance.should.have.property( "apiKey" ).that.equals( "apiKey" );
 		personInstance.parent.should.have.property( "apiKey" ).that.equals( "apiKey" );
 
-		helper.conceal( personInstance, TypeInfo.USERCLASS_USER );
+		var clone = helper.conceal( personInstance, TypeInfo.USERCLASS_USER, true );
 
-		personInstance.should.have.property( "apiKey" ).that.equals( true );
-		personInstance.parent.should.have.property( "apiKey" ).that.equals( true );
+		personInstance.should.have.property( "apiKey" ).that.equals( "apiKey" );
+		clone.should.have.property( "apiKey" ).that.equals( true );
+		clone.parent.should.have.property( "apiKey" ).that.equals( true );
 	} );
 
 	it( "should conceal concealed values with given replacement", function() {
@@ -210,10 +219,11 @@ describe( "Processing: Plain Object (with complex)", function() {
 		personInstance.should.have.property( "apiKey" ).that.equals( "apiKey" );
 		personInstance.parent.should.have.property( "apiKey" ).that.equals( "apiKey" );
 
-		helper.conceal( personInstance, TypeInfo.USERCLASS_USER, false, "foo" );
+		var clone = helper.conceal( personInstance, TypeInfo.USERCLASS_USER, true, "foo" );
 
-		personInstance.should.have.property( "apiKey" ).that.equals( "foo" );
-		personInstance.parent.should.have.property( "apiKey" ).that.equals( "foo" );
+		personInstance.should.have.property( "apiKey" ).that.equals( "apiKey" );
+		clone.should.have.property( "apiKey" ).that.equals( "foo" );
+		clone.parent.should.have.property( "apiKey" ).that.equals( "foo" );
 	} );
 
 	it( "should reduce complex properties", function() {
@@ -229,9 +239,10 @@ describe( "Processing: Plain Object (with complex)", function() {
 		typeInfo.markComplex( "parent", "person" );
 
 		var helper = new TypeHelper( typeInfo );
-		helper.reduceComplex( personInstance );
+		var clone  = helper.reduceComplex( personInstance, true );
 
-		personInstance.should.have.property( "parent" ).that.is.a( "string" ).and.equals( "parent-id" );
+		personInstance.should.have.property( "parent" ).that.is.an( "object" );
+		clone.should.have.property( "parent" ).that.is.a( "string" ).and.equals( "parent-id" );
 	} );
 
 	it( "should reduce arrays of complex properties", function() {
@@ -248,16 +259,18 @@ describe( "Processing: Plain Object (with complex)", function() {
 		typeInfo.markComplex( "parents", "person" );
 
 		var helper = new TypeHelper( typeInfo );
-		helper.reduceComplex( personInstance );
+		var clone  = helper.reduceComplex( personInstance, true );
 
 		personInstance.should.have.property( "parents" ).that.is.an( "array" ).and.has.length( 1 );
-		personInstance.parents[ 0 ].should.equal( "parent-id" );
+		clone.should.have.property( "parents" ).that.is.an( "array" ).and.has.length( 1 );
+		personInstance.parents[ 0 ].should.be.an( "object" );
+		clone.parents[ 0 ].should.equal( "parent-id" );
 	} );
 } );
 
 // ---------------------------------------------------------------------------------------------------------------------
 
-describe( "Processing: Array of Plain Object", function() {
+describe( "Processing: Array of Clones of Plain Object", function() {
 	it( "should omit null values", function() {
 		var personType = PersonType.get();
 
@@ -269,9 +282,10 @@ describe( "Processing: Array of Plain Object", function() {
 
 		personInstance.should.have.property( "name" );
 
-		helper.omitNull( [ personInstance ] );
+		var clone = helper.omitNull( [ personInstance ], true );
 
-		personInstance.should.not.have.property( "name" );
+		personInstance.should.have.property( "name" );
+		clone.should.not.have.property( "name" );
 	} );
 
 	it( "should omit hidden values", function() {
@@ -286,9 +300,10 @@ describe( "Processing: Array of Plain Object", function() {
 
 		personInstance.should.have.property( "apiKey" );
 
-		helper.omitHidden( [ personInstance ], TypeInfo.USERCLASS_USER );
+		var clone = helper.omitHidden( [ personInstance ], TypeInfo.USERCLASS_USER, true );
 
-		personInstance.should.not.have.property( "apiKey" );
+		personInstance.should.have.property( "apiKey" );
+		clone.should.not.have.property( "apiKey" );
 	} );
 
 	it( "should omit read-only values", function() {
@@ -303,9 +318,10 @@ describe( "Processing: Array of Plain Object", function() {
 
 		personInstance.should.have.property( "apiKey" );
 
-		helper.omitReadOnly( [ personInstance ], TypeInfo.USERCLASS_USER );
+		var clone = helper.omitReadOnly( [ personInstance ], TypeInfo.USERCLASS_USER, true );
 
-		personInstance.should.not.have.property( "apiKey" );
+		personInstance.should.have.property( "apiKey" );
+		clone.should.not.have.property( "apiKey" );
 	} );
 
 	it( "should conceal concealed values", function() {
@@ -320,9 +336,11 @@ describe( "Processing: Array of Plain Object", function() {
 
 		personInstance.should.have.property( "apiKey" ).that.equals( "apiKey" );
 
-		helper.conceal( [ personInstance ], TypeInfo.USERCLASS_USER );
+		var clone = helper.conceal( [ personInstance ], TypeInfo.USERCLASS_USER, true );
 
-		personInstance.should.have.property( "apiKey" ).that.equals( true );
+		personInstance.should.have.property( "apiKey" ).that.equals( "apiKey" );
+		clone.should.be.an( "array" ).with.length( 1 );
+		clone[ 0 ].should.have.property( "apiKey" ).that.equals( true );
 	} );
 
 	it( "should conceal concealed values with given replacement", function() {
@@ -337,13 +355,15 @@ describe( "Processing: Array of Plain Object", function() {
 
 		personInstance.should.have.property( "apiKey" ).that.equals( "apiKey" );
 
-		helper.conceal( [ personInstance ], TypeInfo.USERCLASS_USER, false, "foo" );
+		var clone = helper.conceal( [ personInstance ], TypeInfo.USERCLASS_USER, true, "foo" );
 
-		personInstance.should.have.property( "apiKey" ).that.equals( "foo" );
+		personInstance.should.have.property( "apiKey" ).that.equals( "apiKey" );
+		clone.should.be.an( "array" ).with.length( 1 );
+		clone[ 0 ].should.have.property( "apiKey" ).that.equals( "foo" );
 	} );
 } );
 
-describe( "Processing: Array of Plain Object (with complex)", function() {
+describe( "Processing: Array of Clones of Plain Object (with complex)", function() {
 	it( "should omit null values", function() {
 		var personType = PersonType.get();
 
@@ -360,10 +380,12 @@ describe( "Processing: Array of Plain Object (with complex)", function() {
 		personInstance.should.have.property( "name" );
 		personInstance.parent.should.have.property( "name" );
 
-		helper.omitNull( [ personInstance ] );
+		var clone = helper.omitNull( [ personInstance ], true );
 
-		personInstance.should.not.have.property( "name" );
-		personInstance.parent.should.not.have.property( "name" );
+		personInstance.should.have.property( "name" );
+		clone.should.be.an( "array" ).with.length( 1 );
+		clone[ 0 ].should.not.have.property( "name" );
+		clone[ 0 ].parent.should.not.have.property( "name" );
 	} );
 
 	it( "should omit hidden values", function() {
@@ -383,10 +405,12 @@ describe( "Processing: Array of Plain Object (with complex)", function() {
 		personInstance.should.have.property( "apiKey" );
 		personInstance.parent.should.have.property( "apiKey" );
 
-		helper.omitHidden( [ personInstance ], TypeInfo.USERCLASS_USER );
+		var clone = helper.omitHidden( [ personInstance ], TypeInfo.USERCLASS_USER, true );
 
-		personInstance.should.not.have.property( "apiKey" );
-		personInstance.parent.should.not.have.property( "apiKey" );
+		personInstance.should.have.property( "apiKey" );
+		clone.should.be.an( "array" ).with.length( 1 );
+		clone[ 0 ].should.not.have.property( "apiKey" );
+		clone[ 0 ].parent.should.not.have.property( "apiKey" );
 	} );
 
 	it( "should omit read-only values", function() {
@@ -406,10 +430,12 @@ describe( "Processing: Array of Plain Object (with complex)", function() {
 		personInstance.should.have.property( "apiKey" );
 		personInstance.parent.should.have.property( "apiKey" );
 
-		helper.omitReadOnly( [ personInstance ], TypeInfo.USERCLASS_USER );
+		var clone = helper.omitReadOnly( [ personInstance ], TypeInfo.USERCLASS_USER, true );
 
-		personInstance.should.not.have.property( "apiKey" );
-		personInstance.parent.should.not.have.property( "apiKey" );
+		personInstance.should.have.property( "apiKey" );
+		clone.should.be.an( "array" ).with.length( 1 );
+		clone[ 0 ].should.not.have.property( "apiKey" );
+		clone[ 0 ].parent.should.not.have.property( "apiKey" );
 	} );
 
 	it( "should conceal concealed values", function() {
@@ -429,10 +455,12 @@ describe( "Processing: Array of Plain Object (with complex)", function() {
 		personInstance.should.have.property( "apiKey" ).that.equals( "apiKey" );
 		personInstance.parent.should.have.property( "apiKey" ).that.equals( "apiKey" );
 
-		helper.conceal( [ personInstance ], TypeInfo.USERCLASS_USER );
+		var clone = helper.conceal( [ personInstance ], TypeInfo.USERCLASS_USER, true );
 
-		personInstance.should.have.property( "apiKey" ).that.equals( true );
-		personInstance.parent.should.have.property( "apiKey" ).that.equals( true );
+		personInstance.should.have.property( "apiKey" ).that.equals( "apiKey" );
+		clone.should.be.an( "array" ).with.length( 1 );
+		clone[ 0 ].should.have.property( "apiKey" ).that.equals( true );
+		clone[ 0 ].parent.should.have.property( "apiKey" ).that.equals( true );
 	} );
 
 	it( "should conceal concealed values with given replacement", function() {
@@ -452,10 +480,12 @@ describe( "Processing: Array of Plain Object (with complex)", function() {
 		personInstance.should.have.property( "apiKey" ).that.equals( "apiKey" );
 		personInstance.parent.should.have.property( "apiKey" ).that.equals( "apiKey" );
 
-		helper.conceal( [ personInstance ], TypeInfo.USERCLASS_USER, false, "foo" );
+		var clone = helper.conceal( [ personInstance ], TypeInfo.USERCLASS_USER, true, "foo" );
 
-		personInstance.should.have.property( "apiKey" ).that.equals( "foo" );
-		personInstance.parent.should.have.property( "apiKey" ).that.equals( "foo" );
+		personInstance.should.have.property( "apiKey" ).that.equals( "apiKey" );
+		clone.should.be.an( "array" ).with.length( 1 );
+		clone[ 0 ].should.have.property( "apiKey" ).that.equals( "foo" );
+		clone[ 0 ].parent.should.have.property( "apiKey" ).that.equals( "foo" );
 	} );
 
 	it( "should reduce complex properties", function() {
@@ -470,9 +500,11 @@ describe( "Processing: Array of Plain Object (with complex)", function() {
 		typeInfo.markComplex( "parent", "person" );
 
 		var helper = new TypeHelper( typeInfo );
-		helper.reduceComplex( [ personInstance ] );
+		var clone  = helper.reduceComplex( [ personInstance ], true );
 
-		personInstance.should.have.property( "parent" ).that.is.a( "string" ).and.equals( "parent-id" );
+		personInstance.should.have.property( "parent" ).that.is.an( "object" );
+		clone.should.be.an( "array" ).with.length( 1 );
+		clone[ 0 ].should.have.property( "parent" ).that.is.a( "string" ).and.equals( "parent-id" );
 	} );
 
 	it( "should reduce arrays of complex properties", function() {
@@ -489,9 +521,12 @@ describe( "Processing: Array of Plain Object (with complex)", function() {
 		typeInfo.markComplex( "parents", "person" );
 
 		var helper = new TypeHelper( typeInfo );
-		helper.reduceComplex( [ personInstance ] );
+		var clone  = helper.reduceComplex( [ personInstance ], true );
 
 		personInstance.should.have.property( "parents" ).that.is.an( "array" ).and.has.length( 1 );
-		personInstance.parents[ 0 ].should.equal( "parent-id" );
+		clone.should.be.an( "array" ).with.length( 1 );
+		clone[ 0 ].should.have.property( "parents" ).that.is.an( "array" ).and.has.length( 1 );
+		personInstance.parents[ 0 ].should.be.an( "object" );
+		clone[ 0 ].parents[ 0 ].should.equal( "parent-id" );
 	} );
 } );

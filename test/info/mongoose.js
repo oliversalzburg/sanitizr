@@ -12,9 +12,9 @@ var TypeDecorator = require( "../../lib/type/decorator" );
 var TypeInfo      = require( "../../lib/type/info" );
 
 // Fixtures
-var PersonType = require( "../fixtures/plain" );
+var PersonType = require( "../fixtures/mongoose" );
 
-describe( "Info: Plain Object", function() {
+describe( "Info: Mongoose", function() {
 	it( "should create valid type information", function() {
 		var personType = PersonType.get();
 
@@ -74,12 +74,12 @@ describe( "Info: Plain Object", function() {
 		typeInfo.isConcealed( "name", TypeInfo.USERCLASS_USER ).should.equal( false );
 	} );
 
-	it( "should identify properties which are marked complex", function() {
+	it( "should identify complex properties", function() {
 		var personType = PersonType.get();
 
-		var typeInfo = new TypeInfo( "person", personType );
-		typeInfo.markComplex( "parent", "person" );
+		new TypeDecorator( personType );
 
+		var typeInfo = new TypeInfo( "person", personType );
 		typeInfo.isComplex( "parent" ).should.equal( true );
 		typeInfo.isComplex( "name" ).should.equal( false );
 	} );
@@ -88,8 +88,6 @@ describe( "Info: Plain Object", function() {
 		var personType = PersonType.get();
 
 		var typeInfo = new TypeInfo( "person", personType );
-		typeInfo.markComplex( "parent", "person" );
-
 		typeInfo.complex( "parent" ).should.equal( "person" );
 	} );
 } );
