@@ -17,64 +17,49 @@ var TypeInfo    = require( "../../lib/type/info" );
 var PersonType = require( "../fixtures/plain" );
 
 describe( "Paranoid: TypeHelper", function() {
-	it( "should throw on attempts to omit null on null", function() {
+	it( "should return null on attempts to omit null on null", function() {
 		var personType = PersonType.get();
 		var typeInfo   = new TypeInfo( "person", personType );
 		var helper     = new TypeHelper( typeInfo );
 
-		function omitNull() {
-			helper.omitNull( null );
-		}
-
-		expect( omitNull ).to.throw( HelperError );
+		//noinspection BadExpressionStatementJS
+		expect( helper.omitNull( null ) ).to.be.null;
 	} );
 
-	it( "should throw on attempts to omit hidden on null", function() {
+	it( "should return null on attempts to omit hidden on null", function() {
 		var personType = PersonType.get();
 		var typeInfo   = new TypeInfo( "person", personType );
 		var helper     = new TypeHelper( typeInfo );
 
-		function omitHidden() {
-			helper.omitHidden( null );
-		}
-
-		expect( omitHidden ).to.throw( HelperError );
+		//noinspection BadExpressionStatementJS
+		expect( helper.omitHidden( null ) ).to.be.null;
 	} );
 
-	it( "should throw on attempts to omit read-only on null", function() {
+	it( "should return null on attempts to omit read-only on null", function() {
 		var personType = PersonType.get();
 		var typeInfo   = new TypeInfo( "person", personType );
 		var helper     = new TypeHelper( typeInfo );
 
-		function omitReadOnly() {
-			helper.omitReadOnly( null );
-		}
-
-		expect( omitReadOnly ).to.throw( HelperError );
+		//noinspection BadExpressionStatementJS
+		expect( helper.omitReadOnly( null ) ).to.be.null;
 	} );
 
-	it( "should throw on attempts to conceal on null", function() {
+	it( "should return null on attempts to conceal on null", function() {
 		var personType = PersonType.get();
 		var typeInfo   = new TypeInfo( "person", personType );
 		var helper     = new TypeHelper( typeInfo );
 
-		function conceal() {
-			helper.conceal( null );
-		}
-
-		expect( conceal ).to.throw( HelperError );
+		//noinspection BadExpressionStatementJS
+		expect( helper.conceal( null ) ).to.be.null;
 	} );
 
-	it( "should throw on attempts to reduce null", function() {
+	it( "should return null on attempts to reduce null", function() {
 		var personType = PersonType.get();
 		var typeInfo   = new TypeInfo( "person", personType );
 		var helper     = new TypeHelper( typeInfo );
 
-		function reduce() {
-			helper.reduceComplex( null );
-		}
-
-		expect( reduce ).to.throw( HelperError );
+		//noinspection BadExpressionStatementJS
+		expect( helper.reduceComplex( null ) ).to.be.null;
 	} );
 
 	it( "should throw on attempts to omit null on non-complex types that are marked complex", function() {

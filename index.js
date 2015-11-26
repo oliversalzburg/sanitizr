@@ -25,14 +25,30 @@ module.exports = {
 	helper   : helper
 };
 
+/**
+ * Start decorating a type.
+ * @param {Object} type The type to decorate.
+ * @returns {TypeDecorator}
+ */
 function decorate( type ) {
 	return new TypeDecorator( type );
 }
 
+/**
+ * Register the type information for a type.
+ * @param {String} typeName The name for the type.
+ * @param {Object} type The type itself.
+ * @returns {TypeInfo}
+ */
 function info( typeName, type ) {
 	return new TypeInfo( typeName, type );
 }
 
+/**
+ * Retrieve the type helper for a type.
+ * @param {TypeInfo} typeInfo The type information object.
+ * @returns {TypeHelper}
+ */
 function helper( typeInfo ) {
 	return new TypeHelper( typeInfo );
 }
