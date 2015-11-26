@@ -7,6 +7,7 @@ var TypeInfo      = require( "./lib/type/info" );
 module.exports = {
 	DecoratorError : require( "./lib/error/decorator" ),
 	HelperError    : require( "./lib/error/helper" ),
+	InfoError      : require( "./lib/error/info" ),
 
 	ChangeSet : require( "./lib/history/changeset" ),
 
