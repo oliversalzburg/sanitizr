@@ -29,6 +29,21 @@ describe( "Info: Plain Object", function() {
 		typeInfo.typeInfo.name[ TypeInfo.USERCLASS_USER ][ 0 ].should.equal( TypeInfo.READ_ONLY );
 	} );
 
+	it( "should create valid type information with falsey values in schema", function() {
+		var personType = PersonType.get();
+		personType.something = undefined;
+
+		new TypeDecorator( personType )
+			.decorate( "name", TypeInfo.USERCLASS_USER, TypeInfo.READ_ONLY );
+
+		var typeInfo = new TypeInfo( "person", personType );
+
+		typeInfo.should.have.property( "typeInfo" ).that.is.an( "object" );
+		typeInfo.typeInfo.should.have.property( "name" ).that.is.an( "object" );
+		typeInfo.typeInfo.name.should.have.property( TypeInfo.USERCLASS_USER ).that.is.an( "array" ).with.length( 1 );
+		typeInfo.typeInfo.name[ TypeInfo.USERCLASS_USER ][ 0 ].should.equal( TypeInfo.READ_ONLY );
+	} );
+
 	it( "should identify a type by name", function() {
 		var personType = PersonType.get();
 
