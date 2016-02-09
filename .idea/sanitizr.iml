@@ -8,5 +8,6 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="lodash-DefinitelyTyped" level="application" />
     <orderEntry type="library" name="chai-DefinitelyTyped" level="application" />
+    <orderEntry type="library" name="TSD for sanitizr" level="project" />
   </component>
 </module>
