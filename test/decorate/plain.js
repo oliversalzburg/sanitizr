@@ -39,7 +39,7 @@ describe( "Decoration: Plain Object", function() {
 		personType.properties.special[ TypeInfo.INFO_PROPERTY ][ TypeInfo.USERCLASS_USER ][ 0 ].should.equal( TypeInfo.READ_ONLY );
 	} );
 
-	it( "should decorate a type field", function() {
+	it( "should decorate a type field with multiple attributes", function() {
 		var personType = PersonType.get();
 
 		new TypeDecorator( personType )
@@ -50,6 +50,21 @@ describe( "Decoration: Plain Object", function() {
 			.that.is.an( "array" ).with.length( 2 );
 		personType.name[ TypeInfo.INFO_PROPERTY ][ TypeInfo.USERCLASS_USER ].should.include( TypeInfo.READ_ONLY );
 		personType.name[ TypeInfo.INFO_PROPERTY ][ TypeInfo.USERCLASS_USER ].should.include( TypeInfo.HIDDEN );
+	} );
+
+	it( "should decorate a type field for multiple user classes", function() {
+		var personType = PersonType.get();
+
+		new TypeDecorator( personType )
+			.decorate( "name", [ TypeInfo.USERCLASS_USER, TypeInfo.USERCLASS_ADMIN ], TypeInfo.READ_ONLY );
+
+		personType.name.should.have.property( TypeInfo.INFO_PROPERTY );
+		personType.name[ TypeInfo.INFO_PROPERTY ].should.have.property( TypeInfo.USERCLASS_USER )
+			.that.is.an( "array" ).with.length( 1 );
+		personType.name[ TypeInfo.INFO_PROPERTY ].should.have.property( TypeInfo.USERCLASS_ADMIN )
+			.that.is.an( "array" ).with.length( 1 );
+		personType.name[ TypeInfo.INFO_PROPERTY ][ TypeInfo.USERCLASS_USER ][ 0 ].should.equal( TypeInfo.READ_ONLY );
+		personType.name[ TypeInfo.INFO_PROPERTY ][ TypeInfo.USERCLASS_ADMIN ][ 0 ].should.equal( TypeInfo.READ_ONLY );
 	} );
 
 	it( "should decorate a array type field", function() {
