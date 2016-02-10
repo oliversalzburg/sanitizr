@@ -52,6 +52,23 @@ describe( "Decoration: Plain Object", function() {
 		personType.composite[ TypeInfo.INFO_PROPERTY ][ TypeInfo.USERCLASS_USER ][ 0 ].should.equal( TypeInfo.READ_ONLY );
 	} );
 
+	it( "should decorate a composite type field and ignore duplicate decorations", function() {
+		var personType = PersonType.get();
+
+		new TypeDecorator( personType )
+			.decorateComposite( "composite", TypeInfo.USERCLASS_USER, TypeInfo.READ_ONLY )
+			.decorateComposite( "otherComposite", TypeInfo.USERCLASS_USER, TypeInfo.READ_ONLY );
+
+		personType.composite.should.have.property( TypeInfo.INFO_PROPERTY );
+		personType.otherComposite.should.have.property( TypeInfo.INFO_PROPERTY );
+		personType.composite[ TypeInfo.INFO_PROPERTY ].should.have.property( TypeInfo.USERCLASS_USER )
+			.that.is.an( "array" ).with.length( 1 );
+		personType.otherComposite[ TypeInfo.INFO_PROPERTY ].should.have.property( TypeInfo.USERCLASS_USER )
+			.that.is.an( "array" ).with.length( 1 );
+		personType.composite[ TypeInfo.INFO_PROPERTY ][ TypeInfo.USERCLASS_USER ][ 0 ].should.equal( TypeInfo.READ_ONLY );
+		personType.otherComposite[ TypeInfo.INFO_PROPERTY ][ TypeInfo.USERCLASS_USER ][ 0 ].should.equal( TypeInfo.READ_ONLY );
+	} );
+
 	it( "should decorate a nested type field", function() {
 		var personType = PersonType.get();
 
