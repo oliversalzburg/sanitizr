@@ -28,6 +28,17 @@ describe( "Paranoid: Decorator", function() {
 		expect( decorate ).to.throw( DecoratorError );
 	} );
 
+	it( "should throw on attempts to decorate existent property as composite", function() {
+		var personType = PersonType.get();
+
+		function decorate() {
+			new TypeDecorator( personType )
+				.decorateComposite( "name", TypeInfo.USERCLASS_USER, TypeInfo.READ_ONLY );
+		}
+
+		expect( decorate ).to.throw( DecoratorError );
+	} );
+
 	it( "should throw on attempts to decorate deep property with invalid arguments", function() {
 		var personType = PersonType.get();
 
