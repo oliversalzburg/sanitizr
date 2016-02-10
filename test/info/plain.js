@@ -109,6 +109,16 @@ describe( "Info: Plain Object", function() {
 		typeInfo.isComplex( "name" ).should.equal( false );
 	} );
 
+	it( "should identify composite properties", function() {
+		var personType = PersonType.get();
+
+		new TypeDecorator( personType )
+			.decorateComposite( "composite", TypeInfo.USERCLASS_USER, TypeInfo.READ_ONLY );
+		var typeInfo = new TypeInfo( "person", personType );
+
+		typeInfo.isReadOnly( "composite" ).should.equal( true );
+	} );
+
 	it( "should give us the complex type", function() {
 		var personType = PersonType.get();
 
