@@ -49,6 +49,23 @@ describe( "Processing: Plain Object", function() {
 		personInstance.should.not.have.property( "apiKey" );
 	} );
 
+	it( "should ignore inappropriate properties when omitting hidden properties", function() {
+		var personType = PersonType.get();
+
+		new TypeDecorator( personType )
+			.decorate( "apiKey", TypeInfo.USERCLASS_USER, TypeInfo.READ_ONLY );
+
+		var personInstance = PersonType.construct( "id", "name", "apiKey", "special" );
+		var typeInfo       = new TypeInfo( "person", personType );
+		var helper         = new TypeHelper( typeInfo );
+
+		personInstance.should.have.property( "apiKey" ).that.equals( "apiKey" );
+
+		helper.omitHidden( personInstance, TypeInfo.USERCLASS_USER, false );
+
+		personInstance.should.have.property( "apiKey" ).that.equals( "apiKey" );
+	} );
+
 	it( "should omit read-only values", function() {
 		var personType = PersonType.get();
 
@@ -64,6 +81,23 @@ describe( "Processing: Plain Object", function() {
 		helper.omitReadOnly( personInstance, TypeInfo.USERCLASS_USER );
 
 		personInstance.should.not.have.property( "apiKey" );
+	} );
+
+	it( "should ignore inappropriate properties when omitting read-only properties", function() {
+		var personType = PersonType.get();
+
+		new TypeDecorator( personType )
+			.decorate( "apiKey", TypeInfo.USERCLASS_USER, TypeInfo.HIDDEN );
+
+		var personInstance = PersonType.construct( "id", "name", "apiKey", "special" );
+		var typeInfo       = new TypeInfo( "person", personType );
+		var helper         = new TypeHelper( typeInfo );
+
+		personInstance.should.have.property( "apiKey" ).that.equals( "apiKey" );
+
+		helper.omitReadOnly( personInstance, TypeInfo.USERCLASS_USER, false );
+
+		personInstance.should.have.property( "apiKey" ).that.equals( "apiKey" );
 	} );
 
 	it( "should conceal concealed values", function() {
@@ -98,6 +132,23 @@ describe( "Processing: Plain Object", function() {
 		helper.conceal( personInstance, TypeInfo.USERCLASS_USER, false, "foo" );
 
 		personInstance.should.have.property( "apiKey" ).that.equals( "foo" );
+	} );
+
+	it( "should ignore inappropriate properties when concealing", function() {
+		var personType = PersonType.get();
+
+		new TypeDecorator( personType )
+			.decorate( "apiKey", TypeInfo.USERCLASS_USER, TypeInfo.READ_ONLY );
+
+		var personInstance = PersonType.construct( "id", "name", "apiKey", "special" );
+		var typeInfo       = new TypeInfo( "person", personType );
+		var helper         = new TypeHelper( typeInfo );
+
+		personInstance.should.have.property( "apiKey" ).that.equals( "apiKey" );
+
+		helper.conceal( personInstance, TypeInfo.USERCLASS_USER, false, "foo" );
+
+		personInstance.should.have.property( "apiKey" ).that.equals( "apiKey" );
 	} );
 } );
 
