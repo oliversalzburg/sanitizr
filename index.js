@@ -9,11 +9,6 @@ module.exports = {
 	HelperError    : require( "./lib/error/helper" ),
 	InfoError      : require( "./lib/error/info" ),
 
-	ChangeSet : require( "./lib/history/changeset" ),
-
-	Conductor  : require( "./lib/transaction/conductor" ),
-	WebSockets : require( "./lib/transaction/websockets" ),
-
 	TypeDecorator : TypeDecorator,
 	Factory       : require( "./lib/type/factory" ),
 	TypeHelper    : TypeHelper,
