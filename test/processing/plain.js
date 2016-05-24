@@ -49,6 +49,21 @@ describe( "Processing: Plain Object", function() {
 		personInstance.should.not.have.property( "apiKey" );
 	} );
 
+	it( "should omit whole object if hidden", function() {
+		var personType = PersonType.get();
+
+		new TypeDecorator( personType )
+			.decorate( TypeInfo.USERCLASS_USER, TypeInfo.HIDDEN );
+
+		var personInstance = PersonType.construct( "id", "name", "apiKey", "special" );
+		var typeInfo       = new TypeInfo( "person", personType );
+		var helper         = new TypeHelper( typeInfo );
+
+		var result = helper.omitHidden( personInstance, TypeInfo.USERCLASS_USER );
+
+		should.equal( result, null );
+	} );
+
 	it( "should ignore inappropriate properties when omitting hidden properties", function() {
 		var personType = PersonType.get();
 
