@@ -180,6 +180,21 @@ describe( "Processing: Plain Object", function() {
 		personInstance.should.have.property( "apiKey" ).that.equals( "foo" );
 	} );
 
+	it( "should conceal whole object with given replacement if concealed", function() {
+		var personType = PersonType.get();
+
+		new TypeDecorator( personType )
+			.decorate( TypeInfo.USERCLASS_USER, TypeInfo.CONCEALED );
+
+		var personInstance = PersonType.construct( "id", "name", "apiKey", "special" );
+		var typeInfo       = new TypeInfo( "person", personType );
+		var helper         = new TypeHelper( typeInfo );
+
+		var result = helper.conceal( personInstance, TypeInfo.USERCLASS_USER, false, "foo" );
+
+		result.should.be.a( "string" ).that.equals( "foo" );
+	} );
+
 	it( "should ignore inappropriate properties when concealing", function() {
 		var personType = PersonType.get();
 
