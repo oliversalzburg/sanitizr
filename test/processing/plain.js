@@ -98,6 +98,21 @@ describe( "Processing: Plain Object", function() {
 		personInstance.should.not.have.property( "apiKey" );
 	} );
 
+	it( "should omit whole object if read-only", function() {
+		var personType = PersonType.get();
+
+		new TypeDecorator( personType )
+			.decorate( TypeInfo.USERCLASS_USER, TypeInfo.READ_ONLY );
+
+		var personInstance = PersonType.construct( "id", "name", "apiKey", "special" );
+		var typeInfo       = new TypeInfo( "person", personType );
+		var helper         = new TypeHelper( typeInfo );
+
+		var result = helper.omitReadOnly( personInstance, TypeInfo.USERCLASS_USER );
+
+		should.equal( result, null );
+	} );
+
 	it( "should ignore inappropriate properties when omitting read-only properties", function() {
 		var personType = PersonType.get();
 
@@ -130,6 +145,22 @@ describe( "Processing: Plain Object", function() {
 		helper.conceal( personInstance, TypeInfo.USERCLASS_USER );
 
 		personInstance.should.have.property( "apiKey" ).that.equals( true );
+	} );
+
+	it( "should conceal whole object if concealed", function() {
+		var personType = PersonType.get();
+
+		new TypeDecorator( personType )
+			.decorate( TypeInfo.USERCLASS_USER, TypeInfo.CONCEALED );
+
+		var personInstance = PersonType.construct( "id", "name", "apiKey", "special" );
+		var typeInfo       = new TypeInfo( "person", personType );
+		var helper         = new TypeHelper( typeInfo );
+
+		var result = helper.conceal( personInstance, TypeInfo.USERCLASS_USER );
+
+		result.should.be.an( "object" );
+		Object.keys( result ).should.have.length( 0 );
 	} );
 
 	it( "should conceal concealed values with given replacement", function() {
